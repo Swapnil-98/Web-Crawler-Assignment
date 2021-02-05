@@ -21,9 +21,7 @@ def search_amazon(item, user_defined_sorting, low_price=None, high_price=None, p
 
     driver.implicitly_wait(10)
 
-    # THIS IS FOR TASK 2
-    sort_by_button = Select(driver.find_element_by_css_selector('select#s-result-sort-select'))
-    sort_by_button.select_by_value(user_defined_sorting)
+   
 
     if low_price is not None and high_price is not None:
         try:
@@ -129,50 +127,6 @@ def write_to_file():
                         print("We are done taking {} number of products".format(individual_products))
                         return
                     individual_products += 1
-
-input_word = str(input("What do you want to search? "))
-input_sorting = str(input("Sort by: [Featured/Price: Low to High/Price: High to Low/Avg. Customer Review/Newest Arrivals] "))
-input_price_yn = str(input("Do you want to put a low price or high price limit? [Y/N]"))
-
-if input_price_yn.upper() == "Y":
-    input_price_low = str(input("Do you want to put a low price limit? "))
-    input_price_high = str(input("Do you want to put a high price limit? "))
-else:
-    input_price_low = None
-    input_price_high = None
-
-is_pincode = str(input("Want to give us a pincode? [Y/N] "))
-if is_pincode.upper() == "Y":
-    pincode = str(input("pincode please: "))
-else:
-    pincode = "400072"
-
-if "Featured" in input_sorting:
-    input_sorting = "relevanceblender"
-elif "Low to High" in input_sorting:
-    input_sorting = "price-asc-rank"
-elif "High to Low" in input_sorting:
-    input_sorting = "price-desc-rank"
-elif "Customer Review" in input_sorting:
-    input_sorting = "review-rank"
-elif "Newest" in input_sorting:
-    input_sorting = "date-desc-rank"
-else:
-    input_sorting = "relevanceblender" # By default it will be Featured option
-
-stop_somewhere = str(input("Do you want to stop at some count? [Y/N] "))
-if stop_somewhere.upper() == "Y":
-    product_count = int(input("Number of products you want: (max 50)"))
-    if product_count > 50:
-        print("Max was 50, we are taking max 50")
-        product_count = 50
-else:
-    # By default it is 10
-    product_count = 10
-
-search_amazon(input_word, input_sorting, input_price_low, input_price_high, pincode) # <------ search query goes here.
-
-
 # Create an Extractor by reading from the YAML file
 e = Extractor.from_yaml_file('search_results.yml')
 
